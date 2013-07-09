@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Regionalization
-Plugin URI: http://harrissoftworks.com/regionalization
+Plugin URI: https://github.com/tomharris/regionalization
 Description: Adds support for a region taxonomy to posts with additional helpers.
 Version: 1.0.0
 Author: Tom Harris
