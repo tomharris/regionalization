@@ -133,7 +133,9 @@ add_action( 'init', 'user_region_taxonomy', 0 );
 
 class description_walker extends Walker_Nav_Menu {
   function start_el(&$output, $item, $depth, $args) {
-    if($item->description === $args->user_region || $depth != 0) {
+    $regions = explode(',', $item->description);
+
+    if(in_array($args->user_region, $regions)) {
       $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 
       $class_names = $value = '';
