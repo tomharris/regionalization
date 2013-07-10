@@ -135,7 +135,7 @@ class description_walker extends Walker_Nav_Menu {
   function start_el(&$output, $item, $depth, $args) {
     $regions = explode(',', $item->description);
 
-    if(in_array($args->user_region, $regions)) {
+    if(in_array($args->user_region, $regions) || $args->user_region === 'all') {
       $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 
       $class_names = $value = '';
@@ -178,14 +178,19 @@ function get_current_user_region() {
 }
 
 function query_posts_with_current_user_region($query_string) {
+  $user_region = get_current_user_region();
   $carousel_query = wp_parse_args($query_string);
-  $carousel_query['tax_query'] = array(
-    array(
-      'taxonomy' => 'region',
-      'terms' => get_current_user_region(),
-      'field' => 'slug',
-    ),
-  );
+
+  if($user_region !== 'all') {
+    $carousel_query['tax_query'] = array(
+      array(
+        'taxonomy' => 'region',
+        'terms' => get_current_user_region(),
+        'field' => 'slug',
+      ),
+    );
+  }
+
   query_posts($carousel_query);
 }
 
