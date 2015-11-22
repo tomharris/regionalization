@@ -23,6 +23,14 @@ query_posts_with_current_user_region("cat=$cat&showposts=$num");
 ?>
 ```
 
+If you like to use the `pre_get_posts` hook, then you can just add this
+to your theme's `functions.php` to add the taxonomy filter to non-admin
+main queries:
+
+```php
+add_action('pre_get_posts', 'region_pre_get_posts');
+```
+
 `nav_menu_region_filtered` is also provided to support filtering menu items by the current user's region. Simply:
 * Add the slug name of the region to the menu's description field
 * Replace with `wp_nav_menu` with `nav_menu_region_filtered`

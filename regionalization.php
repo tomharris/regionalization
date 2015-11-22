@@ -194,6 +194,26 @@ function query_posts_with_current_user_region($query_string) {
   query_posts($carousel_query);
 }
 
+function region_pre_get_posts($query) {
+  if(!is_a($query, 'WP_Query') || !$query->is_main_query()) {
+    return;
+  }
+
+  $user_region = get_current_user_region();
+
+  if($user_region !== 'all' && !is_admin()) {
+    $tax_query = array(
+      'taxonomy' => 'region',
+      'terms' => array( 'all', $user_region ),
+      'field' => 'slug',
+      //'operator' => 'IN',
+    );
+
+    $query->tax_query->queries[] = $tax_query;
+    $query->query_vars['tax_query'] = $query->tax_query->queries;
+  }
+}
+
 function nav_menu_region_filtered($args) {
   $args['user_region'] = get_current_user_region();
   $args['walker'] = new description_walker();
